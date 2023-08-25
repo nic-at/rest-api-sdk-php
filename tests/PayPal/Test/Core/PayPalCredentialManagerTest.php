@@ -1,5 +1,6 @@
 <?php
 use PayPal\Core\PayPalCredentialManager;
+use PayPal\Exception\PayPalInvalidCredentialException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,7 +34,7 @@ class PayPalCredentialManagerTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = PayPalCredentialManager::getInstance($this->config);
     }
@@ -42,7 +43,7 @@ class PayPalCredentialManagerTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -62,14 +63,14 @@ class PayPalCredentialManagerTest extends TestCase
     {
         $cred = $this->object->getCredentialObject('acct1');
         $this->assertNotNull($cred);
-        $this->assertAttributeEquals('client-id', 'clientId', $cred);
-        $this->assertAttributeEquals('client-secret', 'clientSecret', $cred);
+        $this->assertEquals('client-id', $cred->getClientId());
+        $this->assertEquals('client-secret', $cred->getClientSecret());
     }
 
     /**
      * @after testGetDefaultCredentialObject
      *
-     * @throws \PayPal\Exception\PayPalInvalidCredentialException
+     * @throws PayPalInvalidCredentialException
      */
     public function testSetCredentialObject()
     {
@@ -85,7 +86,7 @@ class PayPalCredentialManagerTest extends TestCase
     /**
      * @after testGetDefaultCredentialObject
      *
-     * @throws \PayPal\Exception\PayPalInvalidCredentialException
+     * @throws PayPalInvalidCredentialException
      */
     public function testSetCredentialObjectWithUserId()
     {
@@ -100,7 +101,7 @@ class PayPalCredentialManagerTest extends TestCase
     /**
      * @after testGetDefaultCredentialObject
      *
-     * @throws \PayPal\Exception\PayPalInvalidCredentialException
+     * @throws PayPalInvalidCredentialException
      */
     public function testSetCredentialObjectWithoutDefault()
     {
@@ -118,7 +119,7 @@ class PayPalCredentialManagerTest extends TestCase
      */
     public function testGetInvalidCredentialObject()
     {
-        $this->setExpectedException('PayPal\Exception\PayPalInvalidCredentialException');
+        $this->expectException(PayPalInvalidCredentialException::class);
         $cred = $this->object->getCredentialObject('invalid_biz_api1.gmail.com');
     }
 
@@ -129,8 +130,8 @@ class PayPalCredentialManagerTest extends TestCase
     {
         $cred = $this->object->getCredentialObject();
         $this->assertNotNull($cred);
-        $this->assertAttributeEquals('client-id', 'clientId', $cred);
-        $this->assertAttributeEquals('client-secret', 'clientSecret', $cred);
+        $this->assertEquals('client-id', $cred->getClientId());
+        $this->assertEquals('client-secret', $cred->getClientSecret());
     }
 
     /**
@@ -141,9 +142,7 @@ class PayPalCredentialManagerTest extends TestCase
         $cred = $this->object->getCredentialObject('acct1');
 
         $this->assertNotNull($cred);
-
-        $this->assertAttributeEquals($this->config['acct1.ClientId'], 'clientId', $cred);
-
-        $this->assertAttributeEquals($this->config['acct1.ClientSecret'], 'clientSecret', $cred);
+        $this->assertEquals($this->config['acct1.ClientId'], $cred->getClientId());
+        $this->assertEquals($this->config['acct1.ClientSecret'], $cred->getClientSecret());
     }
 }

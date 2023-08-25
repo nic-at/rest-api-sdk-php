@@ -3,6 +3,7 @@
 namespace PayPal\Test\Api;
 
 use PayPal\Api\OpenIdUserinfo;
+use PayPal\Exception\PayPalConnectionException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class OpenIdUserinfoTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
     }
 
@@ -25,7 +26,7 @@ class OpenIdUserinfoTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -58,7 +59,7 @@ class OpenIdUserinfoTest extends TestCase
      */
     public function testInvalidParamUserInfoCall()
     {
-        $this->setExpectedException('PayPal\Exception\PayPalConnectionException');
+        $this->expectException(PayPalConnectionException::class);
         OpenIdUserinfo::getUserinfo(array('access_token' => 'accessToken'));
     }
 }

@@ -116,12 +116,10 @@ class InvoiceTest extends TestCase
         $this->assertEquals($obj->getAttachments(), FileAttachmentTest::getObject());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage LogoUrl is not a fully qualified URL
-     */
     public function testUrlValidationForLogoUrl()
     {
+        $this->expectExceptionMessage("LogoUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new Invoice();
         $obj->setLogoUrl(null);
     }
@@ -137,9 +135,7 @@ class InvoiceTest extends TestCase
 
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
-            ->will($this->returnValue(
-                    self::getJson()
-            ));
+            ->willReturn(self::getJson());
 
         $result = $obj->create($mockApiContext, $mockPayPalRestCall);
         $this->assertNotNull($result);
@@ -156,9 +152,7 @@ class InvoiceTest extends TestCase
 
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
-            ->will($this->returnValue(
-                    InvoiceSearchResponseTest::getJson()
-            ));
+            ->willReturn(InvoiceSearchResponseTest::getJson());
         $search = SearchTest::getObject();
 
         $result = $obj->search($search, $mockApiContext, $mockPayPalRestCall);

@@ -143,10 +143,9 @@ class PlanTest extends TestCase
 
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
-            ->will($this->returnValue(
-                    PlanListTest::getJson()
-            ));
-        $params = ParamsTest::getObject();
+            ->willReturn(PlanListTest::getJson());
+
+        $params = array();
 
         $result = $obj->all($params, $mockApiContext, $mockPayPalRestCall);
         $this->assertNotNull($result);

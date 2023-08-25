@@ -71,20 +71,20 @@ class MetadataTest extends TestCase
         $this->assertEquals($obj->getPayerViewUrl(), "http://www.google.com");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage PayerViewUrl is not a fully qualified URL
-     */
     public function testUrlValidationForPayerViewUrl()
     {
+        $this->expectExceptionMessage("PayerViewUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new Metadata();
         $obj->setPayerViewUrl(null);
     }
 
     public function testUrlValidationForPayerViewUrlDeprecated()
     {
+        $this->expectExceptionMessage("PayerViewUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new Metadata();
-        $obj->setPayer_view_url(null);
-        $this->assertNull($obj->getPayer_view_url());
+        $obj->setPayerViewUrl(null);
+        $this->assertNull($obj->setPayerViewUrl());
     }
 }

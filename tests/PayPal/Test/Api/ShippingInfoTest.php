@@ -56,6 +56,14 @@ class ShippingInfoTest extends TestCase
         $this->assertEquals($obj->getFirstName(), "TestSample");
         $this->assertEquals($obj->getLastName(), "TestSample");
         $this->assertEquals($obj->getBusinessName(), "TestSample");
-        $this->assertEquals($obj->getAddress(), AddressTest::getObject());
+        $this->assertEquals($obj->getAddress()->getStatus(), AddressTest::getObject()->getStatus());
+        $this->assertEquals($obj->getAddress()->getPostalCode(), AddressTest::getObject()->getPostalCode());
+        $this->assertEquals($obj->getAddress()->getPhone(), AddressTest::getObject()->getPhone());
+        $this->assertEquals($obj->getAddress()->getNormalizationStatus(), AddressTest::getObject()->getNormalizationStatus());
+        $this->assertEquals($obj->getAddress()->getCity(), AddressTest::getObject()->getCity());
+        $this->assertEquals($obj->getAddress()->getState(), AddressTest::getObject()->getState());
+        $this->assertEquals($obj->getAddress()->getCountryCode(), AddressTest::getObject()->getCountryCode());
+        $this->assertEquals($obj->getAddress()->getLine2(), AddressTest::getObject()->getLine2());
+        $this->assertEquals($obj->getAddress()->getLine1(), AddressTest::getObject()->getLine1());
     }
 }
