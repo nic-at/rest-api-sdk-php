@@ -56,12 +56,10 @@ class FileAttachmentTest extends TestCase
         $this->assertEquals($obj->getUrl(), "http://www.google.com");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Url is not a fully qualified URL
-     */
     public function testUrlValidationForUrl()
     {
+        $this->expectExceptionMessage("Url is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new FileAttachment();
         $obj->setUrl(null);
     }

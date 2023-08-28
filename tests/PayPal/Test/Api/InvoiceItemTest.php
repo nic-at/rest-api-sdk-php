@@ -69,12 +69,10 @@ class InvoiceItemTest extends TestCase
         $this->assertEquals($obj->getUnitOfMeasure(), "TestSample");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage ImageUrl is not a fully qualified URL
-     */
     public function testUrlValidationForImageUrl()
     {
+        $this->expectExceptionMessage("ImageUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new InvoiceItem();
         $obj->setImageUrl(null);
     }

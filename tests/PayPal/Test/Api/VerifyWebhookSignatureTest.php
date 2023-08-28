@@ -69,12 +69,10 @@ class VerifyWebhookSignatureTest extends TestCase
         $this->assertEquals($obj->getWebhookEvent(), WebhookEventTest::getObject());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage CertUrl is not a fully qualified URL
-     */
     public function testUrlValidationForCertUrl()
     {
+        $this->expectExceptionMessage("CertUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new VerifyWebhookSignature();
         $obj->setCertUrl(null);
     }

@@ -55,21 +55,18 @@ class RedirectUrlsTest extends TestCase
         $this->assertEquals($obj->getCancelUrl(), "http://www.google.com");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage ReturnUrl is not a fully qualified URL
-     */
     public function testUrlValidationForReturnUrl()
     {
+        $this->expectExceptionMessage("ReturnUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new RedirectUrls();
         $obj->setReturnUrl(null);
     }
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage CancelUrl is not a fully qualified URL
-     */
+
     public function testUrlValidationForCancelUrl()
     {
+        $this->expectExceptionMessage("CancelUrl is not a fully qualified URL");
+        $this->expectException(\InvalidArgumentException::class);
         $obj = new RedirectUrls();
         $obj->setCancelUrl(null);
     }

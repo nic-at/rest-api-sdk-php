@@ -24,7 +24,7 @@ class PaymentsFunctionalTest extends TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
@@ -119,5 +119,6 @@ class PaymentsFunctionalTest extends TestCase
         if (Setup::$mode == 'sandbox') {
             $this->markTestSkipped('Not executable on sandbox environment. Needs human interaction');
         }
+        $this->expectNotToPerformAssertions();
     }
 }

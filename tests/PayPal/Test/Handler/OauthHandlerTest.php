@@ -31,7 +31,7 @@ class OauthHandlerTest extends TestCase
      */
     public $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
@@ -39,6 +39,8 @@ class OauthHandlerTest extends TestCase
                 'clientSecret'
             )
         );
+
+        $this->config = ['clientId' => 'foo', 'clientSecret' => 'bar'];
     }
 
     public function modeProvider()
@@ -66,5 +68,6 @@ class OauthHandlerTest extends TestCase
         $this->httpConfig = new PayPalHttpConfig(null, 'POST', $config);
         $this->handler = new OauthHandler($this->apiContext);
         $this->handler->handle($this->httpConfig, null, $this->config);
+        $this->expectNotToPerformAssertions();
     }
 }

@@ -5,6 +5,7 @@ namespace PayPal\Test\Auth;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Cache\AuthorizationCache;
 use PayPal\Core\PayPalConfigManager;
+use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
 use PayPal\Test\Cache\AuthorizationCacheTest;
 use PayPal\Test\Constants;
@@ -36,18 +37,18 @@ class OAuthTokenCredentialTest extends TestCase
      */
     public function testInvalidCredentials()
     {
-        $this->setExpectedException('PayPal\Exception\PayPalConnectionException');
+        $this->expectException(PayPalConnectionException::class);
         $cred = new OAuthTokenCredential('dummy', 'secret');
         $this->assertNull($cred->getAccessToken(PayPalConfigManager::getInstance()->getConfigHashmap()));
     }
 
     public function testGetAccessTokenUnit()
     {
-        $config = array(
-            'mode' => 'sandbox',
-            'cache.enabled' => true,
+        $config = [
+            'mode'           => 'sandbox',
+            'cache.enabled'  => true,
             'cache.FileName' => AuthorizationCacheTest::CACHE_FILE
-        );
+        ];
         $cred = new OAuthTokenCredential('clientId', 'clientSecret');
 
         //{"clientId":{"clientId":"clientId","accessToken":"accessToken","tokenCreateTime":1421204091,"tokenExpiresIn":288000000}}
@@ -111,12 +112,10 @@ class OAuthTokenCredentialTest extends TestCase
         $this->assertEquals('accessToken', $response);
     }
 
-    /**
-     * @expectedException \PayPal\Exception\PayPalConnectionException
-     * @expectedExceptionMessage Could not generate new Access token. Invalid response from server:
-     */
     public function testUpdateAccessTokenNullReturnUnitMock()
     {
+        $this->expectExceptionMessage("Could not generate new Access token. Invalid response from server:");
+        $this->expectException(PayPalConnectionException::class);
         $config = array(
             'mode' => 'sandbox'
         );
@@ -128,10 +127,7 @@ class OAuthTokenCredentialTest extends TestCase
 
         $auth->expects($this->any())
             ->method('getToken')
-            ->will($this->returnValue(
-                array(
-                )
-            ));
+            ->willReturn(array());
 
         $response = $auth->updateAccessToken($config);
         $this->assertNotNull($response);
